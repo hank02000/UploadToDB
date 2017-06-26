@@ -1,0 +1,4 @@
+C:\Users\HankHu\Desktop\UploadToDB\UpDownProcess\bin\Debug\UpDownProcess.dll
+C:\Users\HankHu\Desktop\UploadToDB\UpDownProcess\bin\Debug\UpDownProcess.pdb
+C:\Users\HankHu\Desktop\UploadToDB\UpDownProcess\obj\Debug\UpDownProcess.dll
+C:\Users\HankHu\Desktop\UploadToDB\UpDownProcess\obj\Debug\UpDownProcess.pdb

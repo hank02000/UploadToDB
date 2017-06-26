@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -27,10 +28,11 @@ namespace UploadTest
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            SetGV();
         }
 
         protected void Upload_Click(object sender, EventArgs e)
-        {            
+        {
 
             //seek
             /*
@@ -61,39 +63,23 @@ namespace UploadTest
                 //connect.Open();
                 //LSTR_SQL.Append("insert into FileTB (FileName)");
                 //LSTR_SQL.Append("values('test')");
-
                 //transaction = connect.BeginTransaction();
                 //command = new SqlCommand(LSTR_SQL.ToString(), connect, transaction);
-
                 //int result = command.ExecuteNonQuery();
                 //transaction.Commit();
 
 
 
                 //upload
-                string filename = Path.GetFileName(File.PostedFile.FileName);
-                string contentType = File.PostedFile.ContentType;
-
-                using (Stream fs = File.PostedFile.InputStream)
+                UpDownProcess.UpDownProcess Upload = new UpDownProcess.UpDownProcess();
+                if (Upload.Upload(ConnectString, File.PostedFile))
                 {
-                    using (BinaryReader br = new BinaryReader(fs))
-                    {
-                        byte[] bytes = br.ReadBytes((Int32)fs.Length);
-                        //string constr = ConfigurationManager.ConnectionStrings["CN"].ConnectionString;
-                        using (SqlConnection con = new SqlConnection(ConnectString))
-                        {
-                            string query = "insert into FileTB values (@CONTENT_TYPE,@FileName,@File)";
-                            using (SqlCommand cmd = new SqlCommand(query))
-                            {
-                                cmd.Connection = con;
-                                cmd.Parameters.AddWithValue("@CONTENT_TYPE", contentType);
-                                cmd.Parameters.AddWithValue("@FileName", filename);
-                                cmd.Parameters.AddWithValue("@File", bytes);
-                                con.Open();
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
-                    }
+                    lblErrMsg.Text = "上傳成功";
+                    SetGV();
+                }
+                else
+                {
+                    lblErrMsg.Text = "上傳失敗";
                 }
             }
             catch (Exception)
@@ -119,41 +105,59 @@ namespace UploadTest
         protected void DownloadFile_Click(object sender, EventArgs e)
         {
             //string GUID = (sender as LinkButton).CommandArgument;
-            byte[] bytes;
-            string fileName, contentType;
-            using (SqlConnection con = new SqlConnection(ConnectString))
-            {
-                using (SqlCommand cmd = new SqlCommand())
-                {
-                    cmd.CommandText = "select * from FileTB where ID=@ID";
-                    cmd.Parameters.AddWithValue("@ID", txtFileId.Text);
-                    cmd.Connection = con;
-                    con.Open();
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        bytes = (byte[])sdr["file"];
-                        contentType = sdr["CONTENT_TYPE"].ToString();
-                        fileName = sdr["FileName"].ToString();
-                    }
-                }
-            }
+
+            UpDownProcess.UpDownProcess Download = new UpDownProcess.UpDownProcess();
+            Hashtable H = Download.Download(ConnectString, Convert.ToInt16(txtFileId.Text));
 
             Response.Clear();
             Response.Buffer = true;
             Response.Charset = "";
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.ContentType = contentType;
-            Response.AppendHeader("Content-Disposition", "attachment; filename=" + fileName);
-            Response.BinaryWrite(bytes);
+            Response.ContentType = H["contentType"].ToString();
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + H["fileName"].ToString());
+            Response.BinaryWrite((byte[])H["bytes"]);
             Response.Flush();
             Response.End();
         }
+
+        protected void DownloadFile(object sender, EventArgs e)
+        {
+            //string GUID = (sender as LinkButton).CommandArgument;
+            //UpDownProcess.UpDownProcess Download = new UpDownProcess.UpDownProcess();
+            //Hashtable H = Download.Download(ConnectString, Convert.ToInt16(GUID));
+            //Response.Clear();
+            //Response.Buffer = true;
+            //Response.Charset = "";
+            //Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            //Response.ContentType = H["contentType"].ToString();
+            //Response.AppendHeader("Content-Disposition", "attachment; filename=" + H["fileName"].ToString());
+            //Response.BinaryWrite((byte[])H["bytes"]);
+            //Response.Flush();
+            //Response.End();
+        }
+
+
+        public void SetGV()
+        {
+            using (SqlConnection con = new SqlConnection(ConnectString))
+            {
+                string query = "select * from  FileTB ";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(query, con))
+                    {
+                        adapter.Fill(tb);
+                        gv1.DataSource = tb;
+                        gv1.DataBind();
+                    }
+                }
+            }
+        }
+
+
+
     }
-
-
-
-
-
-
 }

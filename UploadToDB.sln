@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadToDB_MVC", "UploadToD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadToDB_WebForm", "UploadToDB_WebForm\UploadToDB_WebForm.csproj", "{0E7D7E97-4DDC-433F-8A0D-CCFD48FB1251}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpDownProcess", "UpDownProcess\UpDownProcess.csproj", "{0A9BD2D5-26D2-4B36-AF7A-8220C91FFE40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0E7D7E97-4DDC-433F-8A0D-CCFD48FB1251}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E7D7E97-4DDC-433F-8A0D-CCFD48FB1251}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E7D7E97-4DDC-433F-8A0D-CCFD48FB1251}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A9BD2D5-26D2-4B36-AF7A-8220C91FFE40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A9BD2D5-26D2-4B36-AF7A-8220C91FFE40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A9BD2D5-26D2-4B36-AF7A-8220C91FFE40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A9BD2D5-26D2-4B36-AF7A-8220C91FFE40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
