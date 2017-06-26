@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="OperaDbModelStoreContainer" CdmEntityContainer="OperaDbEntities">
+    <EntitySetMapping Name="FileTB">
+      <EntityTypeMapping TypeName="OperaDbModel.FileTB">
+        <MappingFragment StoreEntitySet="FileTB">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="CONTENT_TYPE" ColumnName="CONTENT_TYPE" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="File" ColumnName="File" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
