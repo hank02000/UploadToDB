@@ -1,0 +1,1 @@
+Direct store the file to DB 
